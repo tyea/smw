@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/marx/3.0.7/marx.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/11.0.0/markdown-it.min.js"></script>
+		<script>
+			var INTERVAL = null;
+			var DEFAULT_HEADER = "# My Wiki";
+			var HEADER = null;
+			var DEFAULT_FOOTER = "---\n\nProudly powered by [SMW](https://github.com/tyea/smw)";
+			var FOOTER = null;
+			var DEFAULT_ERROR = "## Not Found\n\nThe page you're looking for doesn't exist.";
+			var ERROR = null;
+			$.hash = function (value) {
+				if (typeof value == "string") {
+					location.hash = value;
+				} else {
+					if (location.hash.length > 0) {
+						return location.hash.substr(1);
+					} else {
+						return "";
+					}
+				}
+			};
+			$.markdown = function (markdown) {
+				var renderer = markdownit();
+				return renderer.render(markdown);
+			};
+			$(window).on("hashchange", function () {
+				var url = "markdown/" + $.hash() + ".md";
+				$.ajax({
+					method: "GET",
+					url: url,
+					contentType: "text/markdown",
+					cache: false,
+					success: function (data) {
+						var markdown = HEADER + "\n\n" + data + "\n\n" + FOOTER;
+						$("main").html($.markdown(markdown));
+					},
+					error: function () {
+						var markdown = HEADER + "\n\n" + ERROR + "\n\n" + FOOTER;
+						$("main").html($.markdown(markdown));
+					}
+				});
+			});
+			$(window).on("load", function () {	
+				INTERVAL = setInterval(function () {
+					if (typeof HEADER == "string" && typeof FOOTER == "string" && typeof ERROR == "string") {
+						clearInterval(INTERVAL);
+						if ($.hash() == "") {
+							$.hash("index");
+						} else {
+							$(window).trigger("hashchange");
+						}
+					}
+				}, 250);
+				var templates = ["header", "footer", "error"];
+				$.each(templates, function (key, value) {
+					var url = "markdown/" + value + ".md";
+					var target = value.toUpperCase();
+					var fallback = "DEFAULT_" + target;
+					$.ajax({
+						method: "GET",
+						url: url,
+						contentType: "text/markdown",
+						cache: false,
+						success: function (data) {
+							window[this.target] = data;
+						},
+						error: function () {
+							window[this.target] = window[this.fallback];
+						},
+						target: target,
+						fallback: fallback
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<main></main>
+	</body>
+</html>
