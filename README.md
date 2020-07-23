@@ -30,7 +30,7 @@ As shown above, you must create an `index.md` file in the `markdown` directory. 
 
 ### Linking
 
-When linking between pages all you need to do is use the name of the Markdown file, without the `.md` extension, prefaced with a hash as the link. For example, to link to the `foo.md` file you would do `[Foo](#foo)`.
+When linking between pages you should use the name of the Markdown file you want to link to (prefaced with a hash and with the `.md` extension removed) as the link. For example, to link to the `foo.md` file you would do `[Foo](#foo)`.
 
 ### Images
 
