@@ -57,8 +57,8 @@
 						}
 					}
 				}, 250);
-				var templates = ["header", "footer", "error"];
-				$.each(templates, function (key, value) {
+				var globals = ["header", "footer", "error"];
+				$.each(globals, function (key, value) {
 					var url = "markdown/" + value + ".md";
 					var target = value.toUpperCase();
 					var fallback = "DEFAULT_" + target;
