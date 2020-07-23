@@ -22,17 +22,15 @@ echo -e "## Index\n\nHello world" > markdown/index.md
 
 Any web server which serves Markdown files with the correct `Content-Type` header will work fine. I have tested Apache and Nginx and they both work well.
 
-If you want to try out SMW locally you can use Python. After running `python3 -m http.server` just browse to [http://127.0.0.0:8000](http://127.0.0.0:8000).
+If you want to try out SMW locally you can use Python. After running `python3 -m http.server` just browse to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-### Markdown
+### Files
 
 As shown above, you must create an `index.md` file in the `markdown` directory. Apart from that, how you organise your Markdown files is up to you.
 
 ### Linking
 
-When linking between pages all you need to do is use the name of the Markdown file, without the `.md` extension, prefaced with a hash as the link.
-
-For example, to link from the `foo.md` file to the `bar.md` file you would do `[Hello world](#bar)`.
+When linking between pages all you need to do is use the name of the Markdown file, without the `.md` extension, prefaced with a hash as the link. For example, to link to the `foo.md` file you would do `[Foo](#foo)`.
 
 ### Images
 
